@@ -6,8 +6,8 @@ import { MongoClient } from 'mongodb';
 
 import { GENRES } from './constants';
 
-const MINIMUM_ARTISTS = 2;
-const ARTISTS_TO_ADD = 20;
+const MINIMUM_ARTISTS = 200;
+const ARTISTS_TO_ADD = 15000;
 
 let artistsCollection;
 
@@ -37,7 +37,7 @@ function createArtist() {
     image: faker.image.avatar(),
     genre: getGenre(),
     website: faker.internet.url(),
-    netWorth: randomBetween(0, 5000000),
+    netWorth: randomBetween(100, 5000000),
     labelName: faker.company.companyName(),
     retired: faker.random.boolean(),
     albums: getAlbums()
@@ -45,7 +45,7 @@ function createArtist() {
 }
 
 function getAlbums() {
-  return _.times(randomBetween(0, 5), () => {
+  return _.times(randomBetween(1, 6), () => {
     const copiesSold = randomBetween(0, 1000000);
 
     return {
