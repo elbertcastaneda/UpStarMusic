@@ -1,17 +1,23 @@
-import _ from 'lodash';
 import faker from 'faker';
-import { Db, Server } from 'mongodb';
+
+import _ from 'lodash';
+
+import { MongoClient } from 'mongodb';
+
 import { GENRES } from './constants';
 
 const MINIMUM_ARTISTS = 2;
-const ARTISTS_TO_ADD = 15;
+const ARTISTS_TO_ADD = 20;
 
 let artistsCollection;
-const db = new Db('upstar_music', new Server('localhost', 27017));
-db.open()
-  .then(() => {
+
+const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
+
+client.connect()
+  .then(c => c.db('upstar_music'))
+  .then((db) => {
     artistsCollection = db.collection('artists');
-    return artistsCollection.count({});
+    return artistsCollection.estimatedDocumentCount({});
   })
   .then(count => {
     if (count < MINIMUM_ARTISTS) {
@@ -69,5 +75,5 @@ function randomEntry(array) {
 }
 
 function randomBetween(min, max) {
-  return ~~(Math.random() * (max-min)) + min;
+  return ~~(Math.random() * (max - min)) + min;
 }
