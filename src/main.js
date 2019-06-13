@@ -35,6 +35,7 @@ client.connect(() => {
 
   window.db = db;
   mongoose.connect('mongodb://localhost/upstar_music', { useNewUrlParser: true });
+    mongoose.set('useCreateIndex', true);
     mongoose.connection
       .once('open', () => {
         ReactDOM.render(<App />, document.getElementById('root'));

@@ -21,8 +21,8 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
 
 
 const buildQuery = (criteria) => {
-  return {
-    name: { $regex: `.*${criteria.name}.*`, $options: 'i' },
+  const query = {
+    ...(criteria.name ? { $text: { $search: criteria.name } } : {}),
     ...(criteria.age
       ? {
         age: {
@@ -42,4 +42,7 @@ const buildQuery = (criteria) => {
       : {}
     ),
   };
+
+  console.log(query);
+  return query;
 };
